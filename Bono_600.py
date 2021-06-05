@@ -1,6 +1,6 @@
 import xlsxwriter
 
-workbook = xlsxwriter.Workbook("Otra-forma.xlsx")
+workbook = xlsxwriter.Workbook("Bono_600.xlsx")
 worksheet = workbook.add_worksheet()
 
 headings = ['Departamentos', 'Cantidades']
