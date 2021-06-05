@@ -3,8 +3,6 @@ import xlsxwriter
 workbook = xlsxwriter.Workbook("Otra-forma.xlsx")
 worksheet = workbook.add_worksheet()
 
-título1 = ['VARONES']
-título2 = ['MUJERES']
 headings = ['Departamentos', 'Cantidades']
 
 data = [
@@ -13,40 +11,51 @@ data = [
     [1668, 710, 1013, 681, 1237, 837, 1737, 9287, 367],
 ]
 
-
-worksheet.write_row('A1', título1)
-worksheet.write_row('D1', título2)
 worksheet.write_row('A2', headings)
-worksheet.write_row('D2', headings)
+worksheet.write_row('I2', headings)
 
 worksheet.write_column('A3', data[0])
 worksheet.write_column('B3', data[1])
-worksheet.write_column('D3', data[0])
-worksheet.write_column('E3', data[1])
+worksheet.write_column('I3', data[0])
+worksheet.write_column('J3', data[1])
 
 chart1 = workbook.add_chart({'type': 'pie'})
 chart2 = workbook.add_chart({'type': 'pie'})
 
+
+#Gráfico 1
 chart1.add_series({
     'name': 'Bono Varones',
     'categories': ['Sheet1', 2, 0, 10, 0],
     'values': ['Sheet1', 2, 1, 10, 1],
 })
+chart1.set_title({'name': 'Bonos Hombres'}) #Nombre del gráfico
+chart1.set_style(10) #Estilo del gráfico
+worksheet.insert_chart('A13', chart1) #Ubicación del gráfico
 
+#Gráfico 2
 chart2.add_series({
     'name': 'Bono Mujeres',
-    'categories': ['Sheet1', 2, 3, 10, 3],
-    'values': ['Sheet1', 2, 4, 10, 4],
+    'categories': ['Sheet1', 2, 8, 10, 8],
+    'values': ['Sheet1', 2, 9, 10, 9],
 })
-
-
-chart1.set_title({'name': 'Bonos Hombres'})
 chart2.set_title({'name': 'Bonos Mujeres'})
-
-chart1.set_style(10)
 chart2.set_style(2)
+worksheet.insert_chart('I13', chart2)
 
-worksheet.insert_chart('A13', chart1)
-worksheet.insert_chart('H2', chart2)
+
+#Formato a la celda
+merge_format = workbook.add_format({
+    'bold': 1,
+    'border': 1,
+    'align': 'center',
+    'valign': 'vcenter',
+    'fg_color': 'yellow'})
+worksheet.merge_range('A1:B1', "Varones", merge_format)
+worksheet.merge_range('I1:J1', "Mujeres", merge_format)
+worksheet.set_column('A:B', 15)
+worksheet.set_column('I:J', 15)
+
+
 
 workbook.close()
